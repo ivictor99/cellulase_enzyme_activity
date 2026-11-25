@@ -6,8 +6,8 @@ df = pd.read_csv("enzyme_data.csv")
 conn = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Victor1234.",   # <-- put your MySQL root password here
-    database="cellulase_db"
+    password="Victor1234.",
+    database="cellulase_db",
 )
 cursor = conn.cursor()
 
@@ -16,12 +16,18 @@ sql = """INSERT INTO enzyme_activity
           fpase_IU_ml, endoglucanase_IU_ml, exoglucanase_IU_ml)
          VALUES (%s, %s, %s, %s, %s, %s, %s)"""
 
-# clear the table first, so re-running this script never creates duplicates
 cursor.execute("DELETE FROM enzyme_activity")
 
 for row in df.itertuples(index=False):
-    record = (int(row.sample_id), row.substrate, int(row.incubation_day), int(row.replicate),
-              float(row.fpase_IU_ml), float(row.endoglucanase_IU_ml), float(row.exoglucanase_IU_ml))
+    record = (
+        int(row.sample_id),
+        row.substrate,
+        int(row.incubation_day),
+        int(row.replicate),
+        float(row.fpase_IU_ml),
+        float(row.endoglucanase_IU_ml),
+        float(row.exoglucanase_IU_ml),
+    )
     cursor.execute(sql, record)
 
 conn.commit()

@@ -3,9 +3,9 @@ import mysql.connector
 
 conn = mysql.connector.connect(
     host="localhost",
-    user="root",              
+    user="root",
     password="Victor1234.",
-    database="cellulase_db"
+    database="cellulase_db",
 )
 
 df = pd.read_sql("SELECT * FROM enzyme_activity ORDER BY substrate, incubation_day, replicate", conn)
